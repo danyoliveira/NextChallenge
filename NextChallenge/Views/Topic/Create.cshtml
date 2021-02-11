@@ -1,0 +1,23 @@
+﻿@model    NextChallenge.Models.CreateTopicInput
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Topic</h2>
+
+@using (Html.BeginForm("Create", "Topic"))
+{
+    <div class="form-group">
+        <text>Title</text>
+        @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <text>Text Description</text>
+        @Html.TextAreaFor(m => m.Body, new { @class = "form-control", @style= "height:100px"  })
+    </div>
+    <div>@Html.ValidationMessage("CreateError", new { @class = "text-danger" })</div> <br />
+
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary"> Submit </button> @Html.ActionLink("Topic List", "Index", "Topic")<br />
+}
+

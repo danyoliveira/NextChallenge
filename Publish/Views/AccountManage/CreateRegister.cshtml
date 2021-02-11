@@ -1,0 +1,25 @@
+﻿@model NextChallenge.Models.RegisterInput
+@{
+    ViewBag.Title = "CreateRegister";
+}
+
+<h2>Create Register</h2>
+
+@using (Html.BeginForm("CreateRegister", "AccountManage"))
+{
+    <div class="form-group">
+        <text>Username</text>
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <text>Password</text>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+    </div>
+    <div>@Html.ValidationMessage("RegisterError",new { @class = "text-danger" })</div> <br />
+
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary"> Register </button>
+}
+
+
+

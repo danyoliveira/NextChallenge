@@ -1,0 +1,35 @@
+﻿@model IEnumerable<NextChallenge.Models.TopicOutput>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Guid IdUserLogin = NextChallenge.Helpers.Keys.IdUser;
+}
+
+<h2>Topics</h2>
+@Html.ActionLink("Create New Topic", "Create", "Topic")<br />
+
+<table class="table table-bordered table-responsive table-hover">
+    <tr style="width:100%">
+        <th style="width: 25%">Title</th>
+        <th style="width: 40%">Text</th>
+        <th style="width: 15%">Author</th>
+        <th style="width: 10%">Created Date</th>
+        <th style="width: 10%"></th>
+    </tr>
+    @foreach (var d in Model)
+    {
+        <tr>
+            <td>@d.Title</td>
+            <td>@d.Body</td>
+            <td>@d.Username</td>
+            <td>@d.CreateDate.ToShortDateString()</td>
+            <td>
+                @if (@d.IdUser == IdUserLogin)
+                {
+                    @Html.ActionLink("Edit", "Edit", "Topic", new { id = @d.IdTopic }, null)
+                }
+            </td>
+        </tr>
+    }
+</table>  

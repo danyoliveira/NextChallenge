@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="NextChallengeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Topic">
+    <Key>
+      <PropertyRef Name="IdTopic" />
+    </Key>
+    <Property Name="IdTopic" Type="Guid" Nullable="false" />
+    <Property Name="IdUser" Type="Guid" Nullable="false" />
+    <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK__Topic__IdUser__3B75D760" FromRole="Topic" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="IdUser" />
+    </Key>
+    <Property Name="IdUser" Type="Guid" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Topics" Relationship="Self.FK__Topic__IdUser__3B75D760" FromRole="User" ToRole="Topic" />
+  </EntityType>
+  <Association Name="FK__Topic__IdUser__3B75D760">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Topic" Type="Self.Topic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="IdUser" />
+      </Principal>
+      <Dependent Role="Topic">
+        <PropertyRef Name="IdUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="NextChallengeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Topics" EntityType="Self.Topic" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK__Topic__IdUser__3B75D760" Association="Self.FK__Topic__IdUser__3B75D760">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Topic" EntitySet="Topics" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

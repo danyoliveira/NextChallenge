@@ -1,0 +1,21 @@
+﻿@{
+    Guid IdUserLogin = NextChallenge.Helpers.Keys.IdUser;
+    string Username =    NextChallenge.Helpers.Keys.Username;
+}
+@if (IdUserLogin != Guid.Empty)
+{
+  
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("Hello " + Username + "!", "Index", "Topic", routeValues: new { area = "" }, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li>@Html.ActionLink("Log Off", "LogOut", "AccountManage", routeValues: new { area = "" }, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "CreateRegister", "AccountManage", routeValues: new { area = "" }, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "AccountManage", routeValues: new { area = "" }, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}
