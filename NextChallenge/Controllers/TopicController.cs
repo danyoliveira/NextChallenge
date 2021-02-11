@@ -12,13 +12,11 @@ namespace NextChallenge.Controllers {
         public TopicController()
         {
             _topicRepository = new TopicRepository();
-
-
         }
 
         public ActionResult Index()
         {
-            if (Security.Permission() == HttpStatusCode.Forbidden)
+            if (Security.Permission((Guid)Session["IdUser"]) == HttpStatusCode.Forbidden)
                 return RedirectToAction("Login", "AccountManage");
 
             return View(_topicRepository.GetTopics());
@@ -26,7 +24,7 @@ namespace NextChallenge.Controllers {
 
         public ActionResult Create()
         {
-            if (Security.Permission() == HttpStatusCode.Forbidden)
+            if (Security.Permission((Guid)Session["IdUser"]) == HttpStatusCode.Forbidden)
                 return RedirectToAction("Login", "AccountManage");
 
             return View();
@@ -44,7 +42,8 @@ namespace NextChallenge.Controllers {
                 ModelState.AddModelError("CreateError", "Please Write Title and Description");
                 return View();
             }
-            switch (_topicRepository.CreateTopic(input))
+
+            switch (_topicRepository.CreateTopic((Guid)Session["IdUser"], input))
             {
                 case HttpStatusCode.InternalServerError:
                     ModelState.AddModelError("CreateError", "Try Again.");
@@ -61,7 +60,7 @@ namespace NextChallenge.Controllers {
                 ModelState.AddModelError("EditError", "Please Write Title and Description");
                 return View();
             }
-            switch (_topicRepository.EditTopic(input))
+            switch (_topicRepository.EditTopic((Guid)Session["IdUser"], input))
             {
                 case HttpStatusCode.InternalServerError:
                     ModelState.AddModelError("EditError", "Your Password or User is wrong. Please Try again.");

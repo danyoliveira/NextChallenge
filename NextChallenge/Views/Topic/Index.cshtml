@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Guid IdUserLogin = NextChallenge.Helpers.Keys.IdUser;
+    Guid IdUserLogin = (Guid)Session["IdUser"];
 }
 
 <h2>Topics</h2>

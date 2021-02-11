@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using NextChallenge.Helpers;
+﻿using NextChallenge.Helpers;
 using NextChallenge.Models;
 using System.Linq;
 using System.Net;
@@ -9,11 +8,11 @@ using System.Web.Http;
 namespace NextChallenge.Database.Repository {
     public class UserRepository : ApiController {
         private readonly NextChallengeEntities _database;
-        private readonly IMapper mapper;
 
         public UserRepository()
         {
             _database = new NextChallengeEntities();
+
         }
 
         [HttpGet]
@@ -25,8 +24,6 @@ namespace NextChallenge.Database.Repository {
             if (user == null)
                 return HttpStatusCode.Unauthorized;
 
-            Keys.IdUser = user.IdUser;
-            Keys.Username = user.Username;
             return HttpStatusCode.OK;
         }
         [HttpPost]
@@ -43,10 +40,8 @@ namespace NextChallenge.Database.Repository {
 
             try
             {
-                var data = _database.Users.Add(newUser);
+                _database.Users.Add(newUser);
                 _database.SaveChanges();
-                Keys.IdUser = data.IdUser;
-                Keys.Username = data.Username;
                 return HttpStatusCode.OK;
             }
             catch (System.Exception)
@@ -58,7 +53,7 @@ namespace NextChallenge.Database.Repository {
         [HttpGet]
         public UserInfoOutput UserInfo(UserInfoInput input)
         {
-            return _database.Users.Where(x => x.IdUser == input.IdUser).Select(x => new UserInfoOutput { Username = x.Username }).Single();
+            return _database.Users.Where(x => x.Username == input.Username).Select(x => new UserInfoOutput { IdUser = x.IdUser, Username = x.Username }).Single();
         }
 
         public HttpStatusCode CheckUser(string username)

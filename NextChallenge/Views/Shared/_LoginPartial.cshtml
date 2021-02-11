@@ -1,6 +1,6 @@
 ﻿@{
-    Guid IdUserLogin = NextChallenge.Helpers.Keys.IdUser;
-    string Username =    NextChallenge.Helpers.Keys.Username;
+    Guid IdUserLogin = (Guid)Session["IdUser"];
+    string Username =    (string)Session["Username"];;
 }
 @if (IdUserLogin != Guid.Empty)
 {

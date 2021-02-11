@@ -1,5 +1,4 @@
-﻿using NextChallenge.Helpers;
-using NextChallenge.Models;
+﻿using NextChallenge.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,12 +38,13 @@ namespace NextChallenge.Database.Repository {
             }).SingleOrDefault();
         }
         [HttpPost]
-        public HttpStatusCode CreateTopic(CreateTopicInput input)
+        public HttpStatusCode CreateTopic(Guid IdUser, CreateTopicInput input)
         {
             var newTopic = new Topic()
             {
                 Title = input.Title,
-                Body = input.Body
+                Body = input.Body,
+                IdUser = IdUser
             };
             try
             {
@@ -59,13 +59,13 @@ namespace NextChallenge.Database.Repository {
             }
         }
         [HttpPut]
-        public HttpStatusCode EditTopic(EditTopicInput input)
+        public HttpStatusCode EditTopic(Guid IdUser, EditTopicInput input)
         {
             var editTopic = _database.Topics.SingleOrDefault(x => x.IdTopic == input.IdTopic);
             editTopic.Title = input.Title;
             editTopic.Body = input.Body;
 
-            if (editTopic.IdUser != Keys.IdUser)
+            if (editTopic.IdUser != IdUser)
                 return HttpStatusCode.Unauthorized;
 
             try

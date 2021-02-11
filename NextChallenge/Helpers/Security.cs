@@ -19,28 +19,12 @@ namespace NextChallenge.Helpers {
             }
             return hash.ToString();
         }
-        public static HttpStatusCode Permission()
+        public static HttpStatusCode Permission(Guid IdUser)
         {
-            if (Keys.IdUser == Guid.Empty)
+            if (IdUser == Guid.Empty)
                 return HttpStatusCode.Forbidden;
 
             return HttpStatusCode.OK;
-        }
-        public static HttpStatusCode Reset()
-        {
-            Keys.IdUser = Guid.Empty;
-            Keys.Username = string.Empty;
-            return HttpStatusCode.OK;
-        }
-    }
-    public class Keys {
-        public static Guid IdUser { get; set; }
-        public static string Username { get; set; }
-
-        public Keys()
-        {
-            IdUser = Guid.Empty;
-            Username = string.Empty;
         }
     }
 }

@@ -8,7 +8,6 @@
 //------------------------------------------------------------------------------
 
 namespace NextChallenge.Database {
-    using NextChallenge.Helpers;
     using System;
 
     public partial class Topic {
@@ -26,7 +25,6 @@ namespace NextChallenge.Database {
             IdTopic = Guid.NewGuid();
             CreateDate = DateTime.Now;
             IsActive = true;
-            IdUser = Keys.IdUser;
         }
     }
 }

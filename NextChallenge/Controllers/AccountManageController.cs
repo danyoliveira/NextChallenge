@@ -1,6 +1,6 @@
 ﻿using NextChallenge.Database.Repository;
-using NextChallenge.Helpers;
 using NextChallenge.Models;
+using System;
 using System.Net;
 using System.Web.Mvc;
 
@@ -8,12 +8,15 @@ namespace NextChallenge.Controllers {
     public class AccountManageController : Controller {
         private UserRepository _userRepository;
 
+
         public AccountManageController()
         {
             _userRepository = new UserRepository();
         }
         public ActionResult Login()
         {
+            Session["IdUser"] = Guid.Empty;
+
             return View();
         }
         public ActionResult CreateRegister()
@@ -22,7 +25,7 @@ namespace NextChallenge.Controllers {
         }
         public ActionResult LogOut()
         {
-            Security.Reset();
+            Reset();
             return RedirectToAction("Login");
         }
 
@@ -41,7 +44,11 @@ namespace NextChallenge.Controllers {
                 case HttpStatusCode.Unauthorized:
                     ModelState.AddModelError("LoginError", "Your Password or User is wrong. Please Try again.");
                     return View();
-                default: return RedirectToAction("Index", "Topic");
+                default:
+                    var userInfo = _userRepository.UserInfo(new UserInfoInput { Username = input.Username });
+                    Session["IdUser"] = userInfo.IdUser;
+                    Session["Username"] = userInfo.Username;
+                    return RedirectToAction("Index", "Topic");
             }
         }
 
@@ -63,9 +70,19 @@ namespace NextChallenge.Controllers {
                 case HttpStatusCode.Ambiguous:
                     ModelState.AddModelError("RegisterError", "Already there is this username");
                     return View();
-                default: return RedirectToAction("Index", "Topic");
+                default:
+                    var userInfo = _userRepository.UserInfo(new UserInfoInput { Username = input.Username });
+                    Session["IdUser"] = userInfo.IdUser;
+                    Session["Username"] = userInfo.Username;
+                    return RedirectToAction("Index", "Topic");
 
             }
+        }
+        public HttpStatusCode Reset()
+        {
+            Session["IdUser"] = Guid.Empty;
+            Session["Username"] = string.Empty;
+            return HttpStatusCode.OK;
         }
     }
 }
