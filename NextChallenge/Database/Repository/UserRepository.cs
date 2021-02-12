@@ -6,7 +6,7 @@ using System.Web.Http;
 
 
 namespace NextChallenge.Database.Repository {
-    public class UserRepository : ApiController {
+    public class UserRepository : IUserRepository {
         private readonly NextChallengeEntities _database;
 
         public UserRepository()
